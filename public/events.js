@@ -56,5 +56,27 @@ const downvote = () => {
         })
 }
 
+
+
+document.addEventListener('submit', event => {
+    event.preventDefault();
+const comments = document.querySelector(".comments")
+const comment = document.querySelector(".user-comment");
+const newDiv = document.createElement('div');
+const newComment = document.createTextNode(comment.value);
+    newDiv.appendChild(newComment)
+    comments.appendChild(newDiv);
+    console.log(comment)
+    console.log(comment.value);
+
+
+
+})
+
+
+
+
+
+
 document.getElementById("upvote").addEventListener("click", upvote);
 document.getElementById("downvote").addEventListener("click", downvote);
