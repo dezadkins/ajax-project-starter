@@ -1,3 +1,4 @@
+
 const handleClick = () => {
     document.querySelector(".loader").innerHTML = "Loading...";
     fetch ('/kitten/image')
@@ -12,11 +13,18 @@ const handleClick = () => {
         document.querySelector(".cat-pic").src = json.src;
         document.querySelector(".loader").innerHTML = "";
     })
-    .catch(err => {
+    .catch(handleError)
+}
+
+const handleError = err => {
+    if(err.json) {
         err.json().then(errorJSON => {
             document.querySelector(".error").innerHTML = errorJSON.message;
         })
-    })
+    } else {
+        console.error(err);
+        alert("You've encountered an error! PLease try again later.");
+    }
 }
 
 document.getElementById("new-pic").addEventListener('click', handleClick);
@@ -32,11 +40,7 @@ const upvote = () => {
         .then(data => {
             document.querySelector(".score").innerHTML = data.score;
         })
-        .catch(err => {
-            err.json().then(errJSON => {
-                console.log(errJSON);
-            })
-        })
+        .catch(handleError)
 }
 const downvote = () => {
     fetch('/kitten/downvote', { method: 'PATCH' })
@@ -49,30 +53,23 @@ const downvote = () => {
         .then(data => {
             document.querySelector(".score").innerHTML = data.score;
         })
-        .catch(err => {
-            err.json().then(errJSON => {
-                console.log(errJSON);
-            })
-        })
+        .catch(handleError)
 }
 
 
 
 document.addEventListener('submit', event => {
     event.preventDefault();
-const comments = document.querySelector(".comments")
-const comment = document.querySelector(".user-comment");
-const newDiv = document.createElement('div');
-const newComment = document.createTextNode(comment.value);
+
+    const comments = document.querySelector(".comments")
+    const comment = document.querySelector(".user-comment");
+    const newDiv = document.createElement('div');
+    const newComment = document.createTextNode(comment.value);
     newDiv.appendChild(newComment)
     comments.appendChild(newDiv);
     console.log(comment)
     console.log(comment.value);
-
-
-
 })
-
 
 
 
